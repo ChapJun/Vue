@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div id="app"></div>
+
+    <script>
+        var div = document.querySelector('#app');
+        var viewModel = {};
+
+        // 객체의 동작을 재정의
+        // Object.defineProperty('대상객체', '객체의 속성', {
+        //     // 정의할 내용
+        // }) 
+
+        Object.defineProperty(viewModel, 'str', {
+            // 접근할때
+            get: function () {
+                console.log('접근');
+            },
+            // 할당할때
+            set: function (newVal) {
+                console.log('할당 : ' + newVal);
+                div.innerHTML = newVal;
+            }
+        })
+
+    </script>
+</body>
+
+</html>
