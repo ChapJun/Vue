@@ -21,17 +21,35 @@
         //     // 정의할 내용
         // }) 
 
-        Object.defineProperty(viewModel, 'str', {
-            // 접근할때
-            get: function () {
-                console.log('접근');
-            },
-            // 할당할때
-            set: function (newVal) {
-                console.log('할당 : ' + newVal);
-                div.innerHTML = newVal;
+        /* 정의되자마자 즉시 실행되는 Javascript Function
+        (function () {
+            //statements
+        })(); 
+        */
+
+        (function () {
+
+            function init() {
+                Object.defineProperty(viewModel, 'str', {
+                    // 접근할때
+                    get: function () {
+                        console.log('접근');
+                    },
+                    // 할당할때
+                    set: function (newVal) {
+                        console.log('할당 : ' + newVal);
+                        render(newVal);
+                    }
+                });
             }
-        })
+
+            function render(val) {
+                div.innerHTML = val;
+            }
+
+            init();
+
+        })();
 
     </script>
 </body>
