@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style> h2 {text-indent: 20px;}</style>
+</head>
+<body>
+    
+    <div id="app">
+        <!-- <app-header v-bind:프롭스속성이름="상위 컴포넌트의 데이터 이름"></app-header> -->
+        <app-header v-bind:propsdata="message"></app-header>
+        <app-content v-bind:propsdata="num"></app-content>
+    </div>
+
+    <div id="app2">
+        <app-header v-bind:propsdata="message":align="alignValue"></app-header>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+
+        var appHeader = {
+            template: '<h1>{{propsdata}}</h1>',
+            props:['propsdata']
+        }
+
+        var appContent = {
+            template: '<h2>{{propsdata}}</h2>',
+            props:['propsdata']
+        }
+
+        new Vue({
+            el : '#app',
+            components: {
+                'app-header' : appHeader,
+                'app-content' : appContent
+            },
+            data:{
+                message:'hi',
+                num:10
+            }
+        })
+
+        let model = {
+            alignValue: 'left',
+            message:'hello',
+            num:100.0
+        };
+
+        let viewModel = new Vue({
+            el: '#app2',
+            components: {
+                'app-header' : appHeader
+            },
+            data:model
+        });
+
+        setInterval(() => {
+            if(model.alignValue == "left")
+                model.alignValue = "center";
+            else if(model.alignValue == "center")
+                model.alignValue = "right";
+            else
+                model.alignValue = "left";
+        }, 1000);
+
+      
+    </script>
+</body>
+</html>
