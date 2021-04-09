@@ -16,7 +16,7 @@
     </div>
 
     <div id="app2">
-        <app-header v-bind:propsdata="message":align="alignValue"></app-header>
+        <app-header v-bind:propsdata="alignValue" :align="alignValue" :title="message"></app-header>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -24,7 +24,9 @@
 
         var appHeader = {
             template: '<h1>{{propsdata}}</h1>',
-            props:['propsdata']
+            props: {
+                propsdata: String
+            }
         }
 
         var appContent = {
