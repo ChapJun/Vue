@@ -25,6 +25,9 @@
         <div v-show="loading">
             test
         </div>
+
+        <input placeholder="edit me" type="text" v-model="message">
+        <p>{{message}}</p>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
@@ -38,7 +41,8 @@
                 show : false,
                 loading : true,
                 uuid : 'abc1234',
-                name: 'text-blue'
+                name: 'text-blue',
+                message:''
             },
             computed: {
                 doubleNum: function() {

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <p>{{num}}</p>
+        <p>{{doubleNum}}</p>
+        <button v-on:click="addNum">increase</button>
+        <p>{{fullName}}</p>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data: {
+                num : 10,
+                firstName:'Foo',
+                lastName:'Bar',
+            },
+            // 데이터의 변화에 따라 특정기능 수행 (무거운 로직)
+            watch: {
+                num:function(newValue, oldValue) {
+                    this.logText(newValue);
+                },
+/*                 firstName:function(val) {
+                    this.fullName = val + ' ' + this.lastName;
+                },
+                lastName:function(val) {
+                    this.fullName = this.firstName + ' ' + val;
+                } */
+            },
+            // 값의 변화 (Validation)
+            computed: {
+                doubleNum: function() {
+                    return this.num *2;
+                },
+                fullName :{
+                    get:function() {
+                        return this.firstName + ' ' + this.lastName;
+                    },
+                    set:function(newValue) {
+                        var names = newValue.split(' ');
+                        this.firstName = names[0];
+                        this.lastName = names[names.length - 1];
+                    }
+                }
+            },
+            methods : {
+                addNum:function() {
+                    this.num += 1;
+                },
+                logText: function(num) {
+                    console.log(num);
+                }
+            }
+        })
+
+        vm.fullName = 'John Doe';
+
+    </script>
+</body>
+</html>
