@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+<body>
+    
+    <div id="app">
+        <h1>Chapter 5</h1>
+        <hr>
+        <!-- v-on:click="method" -->
+        <input @keyup.enter.shift="showAlert(1)" @keyup.enter="showAlert(2)" v-model="myText">
+        <p>{{myText}}</p>
+        <p>{{count}}</p>
+        <button @click="countUp(1)">1씩증가</button>
+        <button @click="countUp(10)">10씩증가</button>
+        <button @click="countUp(100)">100씩증가</button>
+        <p></p>
+        <button value="good" :disabled="isClick" @click="oneClick">좋아~</button>
+
+        <hr>
+        <h1>간단한 계산기</h1>
+        <input type="number"  v-model="firstNum">
+        <input type="number"  v-model="lastNum">
+        <p></p>
+        <button @click="calcNumber(1)">덧셈계산</button>
+        <button @click="calcNumber(2)">뺄셈계산</button>
+        <button @click="calcNumber(3)">곱셈계산</button>
+        <button @click="calcNumber(4)">나눗셈</button>
+        <p>결과는 {{calcNum}} 입니다.</p>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        function good() {
+            alert("좋아~");
+        }
+
+        new Vue({
+            el : '#app',
+            data : {
+                count : 0,
+                isClick : false,
+                myText : 'Hello!',
+                firstNum : 0,
+                lastNum : 0,
+                calcNum : 0,
+            },
+            methods : {
+                countUp : function(value) {
+                    this.count += value;
+                },
+                oneClick : function() {
+                    this.isClick = true;
+                    good();
+                },
+                showAlert : function(n) {
+
+                    if(n == 1) {
+                        alert("Shift + Enter키를 눌렀습니다.");
+                    }
+                    else {
+                        alert("Enter키를 눌렀습니다.");
+                    }
+                    
+                },
+                calcNumber : function(n) {
+
+                    if(n==1)
+                        this.calcNum = Number(this.firstNum) + Number(this.lastNum);
+                    else if(n==2)
+                        this.calcNum = this.firstNum - this.lastNum;
+                    else if(n==3)
+                        this.calcNum = this.firstNum * this.lastNum;    
+                    else if(n==4)
+                        this.calcNum = this.firstNum / this.lastNum;    
+                }
+            }
+            
+        })
+    </script>
+</body>
+</html>

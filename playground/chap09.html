@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/2.1.3/marked.min.js"
+        integrity="sha512-AD+GG1nJKO4Je/Q8QsY1gM9/7o1QjpGe9W2Lrg1oGtEID/RX8bMKKZGgw/KOODkPXL6j74c6eJWAhE/3F2kKjA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+
+    <div id="app">
+
+        <textarea v-model="input" cols="100" rows="10"></textarea>
+        <div v-html="convertMarkDown"></div>
+    </div>
+
+    <script>
+
+        new Vue({
+            el: '#app',
+            data: {
+                input: ''
+            },
+            computed: {
+                convertMarkDown: function () {
+                    return marked(this.input);
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

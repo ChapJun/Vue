@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+
+    <div id="app">
+        <h3>제한 시간내에 문자 입력하기</h3>
+        <p>금지문자(,로 나누어 복수입력가능) <input type="text" v-model="prohibitionText"></p>
+        <p>제한시간을 입력하세요 (초) <input type="number" v-model.number="second"> <button @click="startTimer">시작</button></p>
+
+        <hr>
+        <p>남은 시간 {{remainingTime}} 초</p>
+        <textarea cols="100" v-model="myText" :disabled="isStart"></textarea>
+        <p v-show="finish">{{lenText}}개의 문자를 입력하였습니다.</p>
+        <p v-show="finish">벌점 : {{proGrade}} (금지문자 1개당 12점)</p>
+
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                prohibitionText: '',
+                second: 0,
+                timerObj: null,
+                remainingTime: 0,
+                myText: '',
+                isStart: true,
+                lenText: 0,
+                finish: false,
+                prohibitCount: 0
+            },
+            methods: {
+                startTimer: function () {
+                    this.isStart = false;
+                    this.remainingTime = this.second;
+                    this.timerObj = setInterval(() => { this.remainingTime-- }, 1000);
+                }
+            },
+            computed: {
+                proGrade: function () {
+                    return this.prohibitCount * 12;
+                }
+            },
+            watch: {
+                remainingTime: function () {
+                    if (this.remainingTime <= 0) {
+                        this.isStart = true;
+                        this.lenText = this.myText.length;
+                        this.finish = true;
+                        clearInterval(this.timerObj);
+
+                        var prohibitArray = this.prohibitionText.trim().split(',');
+
+                        prohibitArray.forEach(element => {
+                            var re = new RegExp(element, 'gi');
+                            var cnt = this.myText.match(re).length;
+                            this.prohibitCount += cnt;
+                        });
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

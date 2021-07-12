@@ -25,6 +25,7 @@ button {
     border-radius: 6px;
     color: #fff;
     border: 2px;
+    margin: 1px;
     background-color: #007bff;
     transition: background-color 0.2s;
 }
@@ -56,4 +57,19 @@ textarea {
 
 select {
     border: 2px solid #ced4da;
+}
+
+table {
+    width: 100%;
+    text-align: left;
+}
+table th {
+    padding: 12px;
+    border-bottom: 2px solid darkgray;
+}
+table td {
+    padding: 12px;
+}
+table tr:nth-of-type(even) {
+    background-color: rgba(0, 0, 255, 0.1);
 }

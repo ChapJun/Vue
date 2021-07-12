@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.0/gsap.min.js" integrity="sha512-2fk3Q4NXPYAqIha0glLZ2nluueK43aNoxvijPf53+DgL7UW9mkN+uXc1aEmnZdkkZVvtJZltpRt+JqTWc3TS3Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+
+    <div id="app">
+        <p>금지문자는 {{forbiddenText}}</p>
+        <textarea v-model="inputText" cols="100"></textarea>
+        <hr>
+        <h3>남은 시간이 0이 되면 alert</h3>
+        <p>앞으로 {{restSec}} 초</p>
+        <button @click="startTimer">START</button>
+        <hr>
+        <button id="movebtn" type="button" onclick="myMove()">이동</button>
+        <hr>
+        <p>값은 {{animeNumber}}</p>
+        <input v-model.number="myNumber" type="number">
+
+    </div>
+
+    <script>
+
+        function myMove() {
+            // movebtn의 x값을 1초에 500증가시킨다.
+            TweenMax.to('#movebtn', 1, {x : "500px"});
+        }
+
+        new Vue({
+            el: '#app',
+            data: {
+                forbiddenText: '안돼',
+                inputText: '오늘은 날씨가 좋습니다.',
+                restSec: 5,
+                timerObj: null,
+                myNumber : 0,
+                tweenNumber : 0
+            },
+            methods: {
+                startTimer: function () {
+                    this.restSec = 5;
+                    this.timerObj = setInterval(() => { this.restSec-- }, 1000);
+                }
+            },
+            computed : {
+                animeNumber : function() {
+
+                    if(this.tweenNumber > 0) {
+                        return this.tweenNumber.toFixed(0);
+                    }
+                    else {
+                        return this.tweenNumber;
+                    }
+                    
+                }
+            },
+            watch: {
+                myNumber : function() {
+                    TweenMax.to(this.$data, 3, {tweenNumber : this.myNumber});
+                },
+
+                restSec: function () {
+                    if (this.restSec <= 0) {
+                        alert('시간제한');
+                        clearInterval(this.timerObj);
+                    }
+                },
+                inputText: function () {
+                    var pos = this.inputText.indexOf(this.forbiddenText);
+
+                    if (pos >= 0) {
+                        alert(this.forbiddenText + "는 입력할 수 없습니다.");
+                        this.inputText = this.inputText.substr(0, pos - 1);
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

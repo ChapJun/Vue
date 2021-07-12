@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <style>
+        /* 나타나고 있을 때와 사라질 때는 0.5초 */
+        .v-enter-active,
+        .v-leave-active {
+            transition: 0.5s;
+        }
+
+        /* 나타나기 전 상태와 사라진 상태는 투명도가 0 밑으로 20 이동 */
+        .v-enter,
+        .v-leave-to {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+
+        .v-move {
+            transition: 3s;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+
+        <label><input type="checkbox" v-model="isOK">변경</label>
+        <transition>
+            <p v-if="isOK">표시/미표시의 애니메이션~</p>
+        </transition>
+
+        <hr>
+        <transition-group>
+            <li v-for="item in dataArray" :key="item">{{item}}</li>
+        </transition-group>
+        <p></p>
+        <label><input v-model="addItem" placeholder="추가할 텍스트"></label>
+        <p></p>
+        <button @click="addList">추가</button>
+        <button @click="removeList">맨 뒤에 1개 삭제</button><br>
+        <button @click="sortData">소트</button>
+        <button @click="shuffleData">셔플</button>
+    </div>
+
+    <script>
+
+        new Vue({
+            el: '#app',
+            data: {
+                isOK: false,
+                dataArray: ['벚꽃', '산수유', '진달래', '철죽', '개나리'],
+                addItem: ''
+            },
+            methods: {
+
+                addList: function () {
+                    this.dataArray.push(this.addItem);
+                    this.addItem = '';
+                },
+                removeList: function () {
+
+                    var lastIdx = this.dataArray.length - 1;
+                    this.dataArray.splice(lastIdx, 1);
+                },
+                sortData: function () {
+                    this.dataArray.sort(
+                        (a, b) => { return (a > b ? 1 : -1); }
+                    )
+                },
+                shuffleData: function () {
+
+                    var buffer = [];
+
+                    var len = this.dataArray.length;
+
+                    for (var i = len; len > 0; len--) {
+
+                        var r = Math.floor(Math.random() * len);
+                        buffer.push(this.dataArray[r]);
+                        this.dataArray.splice(r, 1);
+                    }
+
+                    this.dataArray = buffer;
+
+                    //console.log(this.dataArray);
+                }
+            }
+        })
+    </script>
+
+</body>
+
+</html>

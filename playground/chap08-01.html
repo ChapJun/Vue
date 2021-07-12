@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    
+    <div id="app">
+        <input v-model.number="price" type="number">원 *
+        <input v-model.number="count" type="number">개 
+        <p>합계 {{sum}} 원</p>
+        <p>소비세 포함 금액 {{taxIncluded}} 원</p>
+
+        <hr>
+
+        <p>감상은 140자 이내로 입력해 주세요.</p>
+        <textarea v-model="myText" cols="100"></textarea>
+        <p :style="{color:computedColor}">남은 글자는 {{remaining}} 입니다.</p>
+
+        <hr>
+        <input v-model="findWord">
+        <ul>
+            <li v-for="item in findItems">{{item}}</li>
+        </ul>
+
+        <hr>
+        <p :style="{backgroundColor:mixColor}">{{mixColor}}</p>
+        <input type="range" v-model="R" min="0" max="255" /><br>
+        <input type="range" v-model="G" min="0" max="255" /><br>
+        <input type="range" v-model="B" min="0" max="255" /><br>
+        
+    </div>
+
+    <script>
+        new Vue({
+            el : '#app',
+            data : {
+                price : 100,
+                count : 1,
+                myText : '오늘은 날씨가 좋습니다.',
+                findWord: '',
+                items : ['설악산', '한라산', '백두산', '지리산', '북한산'],
+                R : 255,
+                G : 0,
+                B : 0
+            },
+            computed : {
+                mixColor:function() {
+                    var ans = "RGB("+this.R+", "+this.G+", "+this.B+")";
+                    return ans;
+                },
+                sum :function() {
+                    return this.price * this.count; 
+                },
+                taxIncluded : function() {
+                    return this.sum * 1.08;
+                },
+                computedColor : function() {
+                    
+                    var col = 'green';
+
+                    if(this.remaining < 20) {
+                        col = 'orange';
+                    }
+                    if(this.remaining < 1) {
+                        col = 'red';
+                    }
+
+                    return col;
+                },
+                remaining : function() {
+                    return 140 - this.myText.length;
+                },
+                findItems : function() {
+                    if(this.findWord) {
+                        return this.items.filter( val => {
+                            return (val.indexOf(this.findWord) > -1);
+                        }, this);
+                    }
+                    else {
+                        return this.items;
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

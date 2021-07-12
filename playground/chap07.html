@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <style>
+        li {
+            list-style: none;
+            margin: 0px;
+            padding: 0px;
+            text-align: left;
+        }
+
+        button {
+
+            width: 100px;
+            background-color: #2b804e;
+            border: none;
+            color: #fff;
+            padding: 15px 0;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 15px;
+            margin: 3px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Ctrl + K  Ctrl + F 코드 정리 -->
+    <h3>선호하는 점심메뉴 투표</h3>
+    <!-- <div id="chart_div" style="height: 500px;"></div> -->
+    <hr>
+    <div id="bar_chart_div" style="height:410px;"></div>
+
+    <div id="app">
+        <li v-for="(item, idx) in dataArray" v-if="idx > 0">
+            {{item[0]}} : {{item[1]}}
+            <button @click="addOne(idx)">투표</button>
+            <button @click="subOne(idx)">빼기</button>
+        </li>
+    </div>
+
+    <script>
+
+        var orgData = [
+            ['종류', '개수', {role:'style'}], ['도시락', 3,  'color: #76A7FA'], ['갈비탕', 4, 'color: #76A7FA'], ['오므라이스', 5, 'color: #76A7FA'], ['짬뽕', 1, 'color: #76A7FA'], ['비빔밥', 3, 'color: #76A7FA'], ['메밀소바', 1, 'color: #76A7FA']
+        ];
+
+        google.charts.load('current', { packages: ['corechart'] });
+        google.charts.setOnLoadCallback(drawBar);
+
+        // 그래프 그리는 함수
+        function drawBasic() {
+            // Define the chart to be drawn.
+            var data = new google.visualization.arrayToDataTable(orgData);
+            var options = { title: '선호하는 점심', "is3D": true };
+            var chart = new google.visualization.PieChart(
+                document.getElementById('chart_div')
+            );
+            chart.draw(data, options);
+        }
+
+        function drawBar() {
+
+            var data = new google.visualization.arrayToDataTable(orgData);
+            var options = {
+                title: '선호하는 점심', width: 600,
+                height: 400, bar: { groupWidth: "95%" },
+            };
+            var chart = new google.visualization.BarChart(
+                document.getElementById('bar_chart_div')
+            );
+            chart.draw(data, options);
+        }
+
+        new Vue({
+            el: '#app',
+            data: {
+                dataArray: orgData
+            },
+            methods: {
+                addOne: function (val) {
+                    var obj = this.dataArray[val];
+                    obj[1]++;
+                    this.dataArray.splice(val, 1, obj); // val index의 값을 obj로 수정
+                    drawBar();
+                },
+                subOne: function (val) {
+                    var obj = this.dataArray[val];
+                    obj[1]--;
+                    this.dataArray.splice(val, 1, obj); // val index의 값을 obj로 수정
+                    drawBar();
+                }
+            }
+
+        });
+
+    </script>
+
+</body>
+
+</html>

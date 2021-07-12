@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="app">
+
+        <h2>다양한 데이터의 출력</h2>
+        <p>{{myText}}</p>
+        <p v-text="myText"></p>
+        <p v-html="myHtml"></p>
+
+        <!-- <p>{{"Hi " + myText}}</p> -->
+        <p>숫자 {{myNumber * 2}}</p>
+        <p>부울형 {{myBool}}</p>
+        <p>배열 {{myArray}}</p>
+        <p>오브젝트 {{myTea[0]}}</p>
+        <!-- <p>{{myArray[0]}}</p> -->
+        <!-- <p>{{myTea}}</p> -->
+        <!-- <p>{{myTea[0].name}} {{myTea[0].price}}원</p> -->
+
+        {{$data}}
+        <!-- <hr> -->
+        <!-- <li v-for="(item,key) in $data">{{key}} : {{item}}</li> -->
+        <!-- <p v-text="myText"></p> -->
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+
+        var teaList = [
+            {name:'다즐링',price:600},
+            {name:'얼그레이', price:500},
+            {name:'카모마일', price:550}
+        ];
+
+    new Vue({
+        el:'#app',
+        data: {
+            myText:'Vue Start. 그냥 출력',
+            myHtml:'<h3> 태그를 넣어서 출력 </h3>',
+            myNumber : 10,
+            myBool : true,
+            myArray: ['다즐링','얼그레이','살론'],
+            myTea : teaList
+        }
+    })
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="app">
+        <input v-model.lazy="myName" placeholder="이름">
+        <p>나는 {{myName}} 입니다.</p>
+
+        <textarea v-model="myText"></textarea>
+        <p>문장은 「{{myText}}」</p>
+        <p>문자수는 {{myText.length}} 자입니다.</p>
+
+        <input id="check1" type="checkbox" v-model="myCheck">
+        <label for="check1">체크박스1 {{myCheck}} </label>
+
+        <button :disabled="!myCheck">송신</button>
+
+        <hr>
+
+        <input id="chk1" type="checkbox" v-model="myChecks" value="red">
+        <label for="chk1">red</label>
+        
+        <input id="chk2" type="checkbox" v-model="myChecks" value="green">
+        <label for="chk2">green</label>
+
+        <input id="chk3" type="checkbox" v-model="myChecks" value="blue">
+        <label for="chk3">blue</label>
+
+        <h3>선택한 색은 {{myChecks}}</h3>
+
+        <hr>
+
+        <select v-model="mySelect" multiple>
+            <option disabled value="">선택</option>
+            <option>선택값1</option>
+            <option>선택값2</option>
+            <option>선택값3</option>
+        </select>
+
+        <p>{{mySelect}}</p>
+
+        <hr>
+
+        <label for="name1">이름 : </label>
+        <input type="text" placeholder="이름" v-model.lazy="myName">
+
+        <p>좋아하는 색은 : </p>
+        <input type="radio" value="red" id="red" v-model="myColor">
+        <label for="red">빨강</label><br>
+        <input type="radio" value="green" id="green" v-model="myColor">
+        <label for="green">녹색</label><br>
+        <input type="radio" value="blue" id="blue" v-model="myColor">
+        <label for="blue">파랑색</label><br>
+        <input type="radio" value="yellow" id="yellow" v-model="myColor">
+        <label for="yellow">노랑색</label><br>
+        <input type="radio" value="gray" id="gray" v-model="myColor">
+        <label for="gray">회색</label><br>
+
+        <p>내 이름은 {{myName}} 이고 좋아하는 색은 <span :style="{color:myColor}">{{myColor}}</span> 입니다.</p>
+
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        new Vue({
+            el : '#app',
+            data : {
+                myName : '',
+                myColor : '',
+                myText : '오늘 날씨 좋습니다.',
+                myCheck : false,
+                myChecks : [],
+                mySelect : []
+            }
+        })
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .strike-through {
+            text-decoration: line-through;
+            color:lightgray
+        }
+        .dark {
+            background-color: gray;
+        }
+        .blue-underline {
+            text-decoration: underline;
+            color:blue
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- 태그의 속성을 데이터로 지정할때는 v-bind -->
+    <div id="app">
+        <img v-bind:src="fileName" v-bind:alt="altMessage" width="300">v-bind로 지정</img>
+        <p><a :href="myURL">링크를 v-bind로 지정</a></p>
+        <p :align="myAlign">우측정렬</p>
+        <p :style="{color:myColor}">글자색 직접지정</p>
+        <p :style="{fontSize:mySize}">글자크기 직접지정</p>
+        <p :style="{backgroundColor:myBackColor}">배경색 직접지정</p>
+
+        <p :class="myClass">클래스 지정</p>
+        <p :class="[myClass, darkClass]">복수 클래스 지정</p>
+        <p :class="{'strike-through': isOn}">데이터로 클래스 ON/OFF</p>
+
+        <hr>
+
+        <p><a :href="testURL">네이버로 연결</a></p>
+        <p><img :src="testImg" width="300">face2.png표시</img></p>
+        <p :align="myAlign">텍스트를 왼쪽 정렬</p>
+        <p :style="{color:myColor}">인라인 스타일로 글자색을 빨간색으로</p>
+        <p :style="{color:myColor, fontSize:mySize}">인라인 스타일로 글자크기를 150% 크게 빨간색으로</p>
+        <p :style="inlineStyle">인라인 스타일로 글자크기를 150% 크게 빨간색으로 배경은 노란색으로</p>
+        <p :class="blueUnderClass">blue-underline class 지정</p>
+        <p :class="[blueUnderClass, darkClass]">blue-underline, strike-through class 지정</p>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        new Vue({
+            el:'#app',
+            data: {
+                fileName : 'https://images.squarespace-cdn.com/content/v1/55d7f714e4b022811c4e591e/1609801210608-AU4E6UAFH1FLABJ758BV/ke17ZwdGBToddI8pDm48kAFyphnNLV6mgQewnttF-Kd7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z5QPOohDIaIeljMHgDF5CVlOqpeNLcJ80NK65_fV7S1UfVFIiFJqoxe7YytOWGg3vjpoWisyJ_CX7DxIicrWbXoJvwGh1qtNWvMhYKnvaKhbA/corgi-crew-face1.png',
+                altMessage : "cant't found",
+                myURL:'https://roadbook.co.kr/',
+                myAlign : 'left',
+                myColor : '#E08000',
+                mySize : '150%',
+                myBackColor : 'yellow',
+                myClass : 'strike-through',
+                darkClass : 'dark',
+                blueUnderClass : 'blue-underline',
+                isOn : false,
+                testURL : 'https://www.naver.com/',
+                testImg : 'https://hondoom.com/zbxe/files/attach/images/38832/158/302/face2.png',
+                testColor : 'red',
+                inlineStyle : {color:'#080000', fontSize:'150%', backgroundColor:'yellow'}
+            }
+        })
+    </script>
+
+
+</body>
+</html>

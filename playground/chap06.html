@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+
+    <style>
+        /* 나타나고 있을 때와 사라질 때는 0.5초 */
+        .v-enter-active,
+        .v-leave-active {
+            transition: 0.5s;
+        }
+
+        /* 나타나기 전 상태와 사라진 상태는 투명도가 0 옆으로 50 이동 */
+        .v-enter,
+        .v-leave-to {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+
+        .v-move {
+            transition: 2s;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="app">
+        <label><input type="checkbox" v-model="myVisible">표시</label>
+        <p v-if="myVisible">체크박스가 ON</p>
+        <p v-else>체크박스가 OFF</p>
+
+        <button v-if="isShow" @click="good">좋아~~</button>
+        <p></p>
+        <li v-for="item in myArray">{{item}}</li>
+        <ol v-for="n in 3">{{n}}</ol>
+
+        <h3>관심받고있는 언어랭킹</h3>
+        <table>
+            <thead>
+                <th v-for="item in header">{{item}}</th>
+            </thead>
+            <tbody>
+                <tr v-for="line in ranking">
+                    <td v-for="item in line">{{item}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <hr>
+        <ul>
+            <li v-for="item in myArray">{{item}}</li>
+        </ul>
+        <button @click="addLast">맨뒤에추가</button>
+        <button @click="addObj(3)">네번째에추가</button>
+        <button @click="changeObj(0)">첫번째를변경</button>
+        <button @click="deleteObj(1)">두번째를삭제</button>
+
+        <br>
+        <button @click="sortData(myArray)">Sort</button>
+
+        <hr>
+        <h3>숫자 배열 조작과 구구단 출력</h3>
+
+
+        <ul>
+            <transition-group>
+                <li v-for="(item, idx) in number_list" :key="item">{{item}}
+                    <button @click="changeNumber(idx)">변경</button>
+                    <button @click="deleteNumber(idx)">삭제</button>
+                </li>
+            </transition-group>
+        </ul>
+
+
+        <button @click="addNumber">추가</button>
+        <button @click="sortNumber">소트</button>
+        <button @click="printNumber">구구단보이기</button>
+
+        <transition-group>
+            <ul v-show="isPrint" v-for="item in number_list" :key="item">
+                <li v-for="n in 9">{{item}} x {{n}} = {{item * n}}</li>
+            </ul>
+        </transition-group>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                myVisible: false,
+                isShow: true,
+                myArray: ["첫번째", "두번째", "세번째", "네번째", "다섯번째"],
+                header: ["프로그래밍언어", "2016", "2017", "2018", "2019", "2020"],
+                ranking: [['Java', 1, 2, 1, 1, 16],
+                ['C', 1, 2, 1, 1, 16],
+                ['C++', 1, 2, 1, 1, 16],
+                ['Python', 1, 2, 1, 1, 16],
+                ['JavaScript', 1, 2, 1, 1, 16]
+                ],
+                number_list: [2, 3, 4, 5, 6, 7, 8, 9],
+                isPrint: false
+            },
+            methods: {
+                good: function () {
+                    this.isShow = false;
+                },
+                addLast: function () {
+                    this.myArray.push("[맨뒤에 추가]");
+                },
+                addObj: function (idx) {
+                    this.myArray.splice(idx, 0, '[추가]');
+                },
+                changeObj: function (idx) {
+                    this.myArray.splice(idx, 1, '[변경]');
+                },
+                deleteObj: function (idx) {
+                    this.myArray.splice(idx, 1);
+                },
+                sortData: function (arr) {
+                    arr.sort(function (a, b) {
+                        return (a < b ? 1 : -1);
+                    })
+                },
+                addNumber: function () {
+                    this.number_list.push(1);
+                },
+                sortNumber: function () {
+
+                    var tmpArr = this.number_list.filter((element, idx) => {
+                        return this.number_list.indexOf(element) === idx;
+                    });
+
+                    this.number_list = tmpArr;
+
+                    this.number_list.sort(function (a, b) {
+                        return (a > b ? 1 : -1);
+                    })
+                },
+                printNumber: function () {
+                    this.isPrint = true;
+                },
+                changeNumber: function (idx) {
+
+                    var tmp = this.number_list[idx] + 1;
+                    this.number_list.splice(idx, 1, tmp);
+                },
+                deleteNumber: function (idx) {
+                    this.number_list.splice(idx, 1);
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .donestyle {
+            text-decoration: line-through;
+            color: lightgray;
+        }
+
+        /* 나타나고 있을 때와 사라질 때는 0.5초 */
+        .v-enter-active,
+        .v-leave-active {
+            transition: 0.5s;
+        }
+
+        /* 나타나기 전 상태와 사라진 상태는 투명도가 0 옆으로 30 이동 */
+        .v-enter,
+        .v-leave-to {
+            opacity: 0;
+            transform: translateX(30px);
+        }
+
+        .v-move {
+            transition: 3s;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+
+        <h3>Todo List</h3>
+        <transition-group>
+            <div v-for="(todo, idx) in todos" :key="todo.text">
+                <label>
+                    <input type="checkbox" v-model="todo.done">
+                    <span :class="{donestyle:todo.done}">{{todo.text}} (완료일 {{todo.compday}} )
+                        <button @click="expandDay(idx)">완료일 연장</button></span>
+
+                </label>
+            </div>
+        </transition-group>
+
+        <hr>
+
+        <input type="text" v-model.trim="addtext" @keyup.enter="addTodo" placeholder="할일"> /
+        <input type="text" v-model.trim="addcompday" @keyup.enter="addTodo" placeholder="완료일">
+        <p><button @click="cleanTodo">처리완료삭제</button></p>
+        <p><button @click="sortTodo">할일순 정렬</button></p>
+        <p><button @click="sortDay">완료일 정렬</button></p>
+        <p>{{remaining}} / {{todos.length}}건 처리 {{overdue}} 완료일 지남</p>
+
+    </div>
+
+    <script>
+
+        function getToday() {
+            var date = new Date();
+            var year = date.getFullYear();
+            var month = ("0" + (1 + date.getMonth())).slice(-2);
+            var day = ("0" + date.getDate()).slice(-2);
+
+            return year + month + day;
+        }
+        new Vue({
+            el: '#app',
+            data: {
+                todos: [
+                    { done: false, text: '빵사기', compday: '20210101' },
+                    { done: false, text: '커피사기', compday: '20210621' },
+                    { done: false, text: '청소하기', compday: '20210313' }
+                ],
+                addtext: '',
+                addcompday: ''
+            },
+            methods: {
+
+                addTodo: function () {
+                    if (this.addtext) {
+
+                        if (this.addcompday) {
+                            this.todos.push({ done: false, text: this.addtext, compday: this.addcompday });
+                        }
+                        else {
+                            this.todos.push({ done: false, text: this.addtext, compday: getToday() });
+                        }
+
+                        this.addtext = '';
+                        this.addcompday = '';
+                    }
+                },
+                cleanTodo: function () {
+                    this.todos = th, is.todos.filter(val => val.done == false);
+                },
+                expandDay: function (idx) {
+                    var tmp = this.todos[idx].compday;
+
+                    var dat1 = new Date(tmp.substr(0, 4), tmp.substr(4, 2) - 1, tmp.substr(6, 2));
+                    dat1.setDate(dat1.getDate() + 1);
+
+                    var year = dat1.getFullYear();
+                    var month = ("0" + (1 + dat1.getMonth())).slice(-2);
+                    var day = ("0" + dat1.getDate()).slice(-2);
+
+                    this.todos[idx].compday = year + month + day;
+                },
+                sortTodo: function () {
+                    this.todos.sort(function (a, b) {
+                        return (a.text > b.text ? 1 : -1);
+                    })
+                },
+                sortDay: function () {
+                    this.todos.sort(
+                        (a, b) => (a.compday > b.compday ? 1: -1)
+                    )
+                }
+            },
+            computed: {
+                remaining: function () {
+                    return this.todos.filter(val => val.done).length;
+                },
+                overdue : function() {
+                    return this.todos.filter(
+                        val => val.compday < getToday()
+                    ).length;
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
